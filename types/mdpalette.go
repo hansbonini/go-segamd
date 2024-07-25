@@ -26,3 +26,7 @@ func NewMDPalette(data []byte) (palette *MDPalette) {
 	}
 	return palette
 }
+
+func (palette *MDPalette) Size() int {
+	return len(palette.Colors)
+}

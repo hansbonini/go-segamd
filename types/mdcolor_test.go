@@ -9,24 +9,47 @@ import (
 )
 
 func TestNewMDColor(t *testing.T) {
-	// Test that NewMDColor returns a non-nil pointer to MDColor
-	color := types.NewMDColor()
-	if color == nil {
-		t.Errorf("NewMDColor returned nil")
+	tests := []struct {
+		name string
+		r    uint8
+		g    uint8
+		b    uint8
+		a    uint8
+		want *types.MDColor
+	}{
+		{
+			name: "Test with max values",
+			r:    0x1F,
+			g:    0x1F,
+			b:    0x1F,
+			a:    0xFF,
+			want: &types.MDColor{R: 0x1F, G: 0x1F, B: 0x1F, A: 0xFF},
+		},
+		{
+			name: "Test with min values",
+			r:    0x00,
+			g:    0x00,
+			b:    0x00,
+			a:    0x00,
+			want: &types.MDColor{R: 0x00, G: 0x00, B: 0x00, A: 0x00},
+		},
+		{
+			name: "Test with zero values",
+			r:    0x00,
+			g:    0x00,
+			b:    0x00,
+			a:    0x00,
+			want: &types.MDColor{R: 0x00, G: 0x00, B: 0x00, A: 0x00},
+		},
 	}
 
-	// Test that the returned MDColor has default values for R, G, B, and A
-	if color.R != 0 {
-		t.Errorf("NewMDColor returned non-zero value for R")
-	}
-	if color.G != 0 {
-		t.Errorf("NewMDColor returned non-zero value for G")
-	}
-	if color.B != 0 {
-		t.Errorf("NewMDColor returned non-zero value for B")
-	}
-	if color.A != 0 {
-		t.Errorf("NewMDColor returned non-zero value for A")
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := types.NewMDColor()
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewMDColor() = %v, want %v", got, tt.want)
+			}
+		})
 	}
 }
 

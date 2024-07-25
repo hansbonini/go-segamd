@@ -13,9 +13,9 @@ func TestNewMDPalette(t *testing.T) {
 		t.Errorf("NewMDPalette returned nil")
 	}
 
-	// Test that the returned MDPalette has the correct number of colors
-	if len(palette.Colors) != 16 {
-		t.Errorf("NewMDPalette returned wrong number of colors: %d", len(palette.Colors))
+	// Check number of colors in palette
+	if palette.Size() != 16 {
+		t.Errorf("Expected 16 colors, got %d", palette.Size())
 	}
 
 	// Test that the colors in the palette are correct
@@ -41,5 +41,19 @@ func TestNewMDPalette(t *testing.T) {
 		if color != expectedColors[i] {
 			t.Errorf("NewMDPalette returned wrong color at index %d: %v", i, color)
 		}
+	}
+}
+
+func TestMDPalette_Size(t *testing.T) {
+	palette := types.MDPalette{
+		Colors: []types.MDColor{
+			{R: 0, G: 0, B: 0, A: 0},
+			{R: 1, G: 1, B: 1, A: 255},
+			{R: 2, G: 2, B: 2, A: 255},
+			{R: 3, G: 3, B: 3, A: 255},
+		},
+	}
+	if palette.Size() != 4 {
+		t.Errorf("Expected 4 colors, got %d", palette.Size())
 	}
 }
