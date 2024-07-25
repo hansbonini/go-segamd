@@ -40,7 +40,7 @@ func (segard *MDCompressor_SEGARD) Marshal() []byte {
 		if err = binary.Read(data, binary.BigEndian, &chunk); err != nil {
 			break
 		}
-		segard.getRepeatOcurrences(chunk, stats, candidates)
+		segard.getRepeats(chunk, stats, candidates)
 		segard.getMasks(chunk, candidates, masks)
 		ocurrenceOrder := segard.getOcurrenceOrder(chunk, candidates)
 		chain := make([]byte, 0)
@@ -106,7 +106,7 @@ func (segard *MDCompressor_SEGARD) getMasks(chunk []byte, candidates map[byte]in
 	}
 }
 
-func (segard *MDCompressor_SEGARD) getRepeatOcurrences(chunk []byte, stats map[byte]int, candidates map[byte]int) {
+func (segard *MDCompressor_SEGARD) getRepeats(chunk []byte, stats map[byte]int, candidates map[byte]int) {
 	for _, repeats := range chunk {
 		stats[repeats]++
 	}
