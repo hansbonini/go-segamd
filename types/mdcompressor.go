@@ -40,37 +40,9 @@ func (segard *MDCompressor_SEGARD) Marshal() []byte {
 		if err = binary.Read(data, binary.BigEndian, &chunk); err != nil {
 			break
 		}
-		for _, repeats := range chunk {
-			stats[repeats]++
-		}
-		for k, v := range stats {
-			if v > 5 {
-				candidates[k] = v
-			}
-		}
-		for _, v := range chunk {
-			for cv := range candidates {
-				masks[cv] <<= 1
-				if v == cv {
-					masks[cv] |= 1
-				} else {
-					masks[cv] |= 0
-				}
-			}
-		}
-		ocurrenceOrder := make([]byte, 0)
-		for _, v := range chunk {
-			for cv := range candidates {
-				if v == cv {
-					if !slices.Contains(ocurrenceOrder, v) {
-						ocurrenceOrder = append(ocurrenceOrder, v)
-					}
-				}
-			}
-			if len(ocurrenceOrder) == len(candidates) {
-				break
-			}
-		}
+		segard.getRepeatOcurrences(chunk, stats, candidates)
+		segard.getMasks(chunk, candidates, masks)
+		ocurrenceOrder := segard.getOcurrenceOrder(chunk, candidates)
 		chain := make([]byte, 0)
 		chain = append(chain, byte(len(candidates)))
 		nonrepeat := uint32(0)
@@ -102,6 +74,47 @@ func (segard *MDCompressor_SEGARD) Marshal() []byte {
 		}
 	}
 	return out.Bytes()
+}
+
+func (segard *MDCompressor_SEGARD) getOcurrenceOrder(chunk []byte, candidates map[byte]int) []byte {
+	ocurrenceOrder := make([]byte, 0)
+	for _, v := range chunk {
+		for cv := range candidates {
+			if v == cv {
+				if !slices.Contains(ocurrenceOrder, v) {
+					ocurrenceOrder = append(ocurrenceOrder, v)
+				}
+			}
+		}
+		if len(ocurrenceOrder) == len(candidates) {
+			break
+		}
+	}
+	return ocurrenceOrder
+}
+
+func (segard *MDCompressor_SEGARD) getMasks(chunk []byte, candidates map[byte]int, masks map[byte]uint32) {
+	for _, v := range chunk {
+		for cv := range candidates {
+			masks[cv] <<= 1
+			if v == cv {
+				masks[cv] |= 1
+			} else {
+				masks[cv] |= 0
+			}
+		}
+	}
+}
+
+func (segard *MDCompressor_SEGARD) getRepeatOcurrences(chunk []byte, stats map[byte]int, candidates map[byte]int) {
+	for _, repeats := range chunk {
+		stats[repeats]++
+	}
+	for k, v := range stats {
+		if v > 5 {
+			candidates[k] = v
+		}
+	}
 }
 
 func (segard *MDCompressor_SEGARD) Unmarshal() []byte {
