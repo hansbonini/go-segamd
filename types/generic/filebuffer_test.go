@@ -1,17 +1,18 @@
 package generic_test
 
 import (
+	"errors"
 	"io"
 	"testing"
 
 	"github.com/hansbonini/go-segamd/types/generic"
 )
 
-func TestFileBuffer(t *testing.T) {
-	fb := &generic.FileBuffer{}
+func TestFileBuffer_NewFileBuffer(t *testing.T) {
+	fb := generic.NewFileBuffer()
 
-	if _, err := fb.Write([]byte{1, 2, 3, 4}); err != nil {
-		t.Fatal(err)
+	if fb == nil {
+		t.Fatal()
 	}
 }
 
@@ -83,6 +84,30 @@ func TestFileBuffer_Seek(t *testing.T) {
 	}
 
 	if _, err := fb.Seek(2, io.SeekStart); err != nil {
+		t.Fatal(err)
+	}
+
+	if offset := fb.Tell(); offset != 2 {
+		t.Fatal(offset)
+	}
+
+	if _, err := fb.Seek(2, io.SeekCurrent); err != nil {
+		t.Fatal(err)
+	}
+
+	if offset := fb.Tell(); offset != 4 {
+		t.Fatal(offset)
+	}
+
+	if _, err := fb.Seek(2, io.SeekEnd); err != nil {
+		t.Fatal(err)
+	}
+
+	if offset := fb.Tell(); offset != 6 {
+		t.Fatal(offset)
+	}
+
+	if _, err := fb.Seek(-2, io.SeekStart); errors.Is(err, errors.New("negative position")) {
 		t.Fatal(err)
 	}
 }

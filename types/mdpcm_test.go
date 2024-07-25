@@ -75,4 +75,32 @@ func TestFromWAV(t *testing.T) {
 	if err == nil {
 		t.Errorf("Expected an error, but got nil")
 	}
+
+	// Test case: valid wav data
+	data = []byte{
+		// WAV header
+		0x52, 0x49, 0x46, 0x46, // "RIFF"
+		0x24, 0x08, 0x00, 0x00, // Chunk size
+		0x57, 0x41, 0x56, 0x45, // "WAVE"
+		0x66, 0x6D, 0x74, 0x20, // "fmt "
+		0x10, 0x00, 0x00, 0x00, // Subchunk size
+		0x01, 0x00, // Audio format (PCM)
+		0x01, 0x00, // Number of channels
+		0x44, 0xAC, 0x00, 0x00, // Sample rate
+		0x44, 0xAC, 0x00, 0x00, // Byte rate
+		0x01, 0x00, // Block align
+		0x08, 0x00, // Bits per sample
+		0x64, 0x61, 0x74, 0x61, // "data"
+		0x00, 0x08, 0x00, 0x00, // Data size
+	}
+	for i := 0; i < 2048; i++ {
+		data = append(data, byte(0x80))
+	}
+	wavData, err := pcm.FromWAV(data)
+	if err != nil {
+		t.Errorf("Unexpected error: %v", err)
+	}
+	if len(wavData) == 0 {
+		t.Errorf("Expected non-empty WAV data, got empty data")
+	}
 }
