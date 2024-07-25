@@ -13,6 +13,8 @@ var rootCmd = &cobra.Command{
 graphics, audios, tilemaps, sprites, texts.`,
 }
 
+var RootCmd = rootCmd
+
 func Execute() {
 	err := rootCmd.Execute()
 	if err != nil {
