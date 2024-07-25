@@ -16,6 +16,17 @@ type MDPCM struct {
 	SampleRate int
 }
 
+// ToWAV converts PCM data to WAV format.
+//
+// It takes in a byte slice `data` representing the PCM data and returns a byte slice
+// representing the WAV data and an error if any occurred.
+//
+// Parameters:
+// - data: The PCM data to convert.
+//
+// Returns:
+// - []byte: The WAV data.
+// - error: An error if any occurred.
 func (pcm *MDPCM) ToWAV(data []byte) ([]byte, error) {
 	wBuf := generic.NewFileBuffer()
 	pBuf := audio.IntBuffer{
@@ -45,6 +56,17 @@ func (pcm *MDPCM) ToWAV(data []byte) ([]byte, error) {
 	return wBuf.Bytes(), nil
 }
 
+// FromWAV converts WAV data to MDPCM format.
+//
+// It takes in a byte slice `data` representing the WAV data and returns a byte slice
+// representing the MDPCM data and an error if any occurred.
+//
+// Parameters:
+// - data: The WAV data to convert.
+//
+// Returns:
+// - []byte: The MDPCM data.
+// - error: An error if any occurred.
 func (pcm *MDPCM) FromWAV(data []byte) ([]byte, error) {
 	wBuf := wav.NewDecoder(bytes.NewReader(data))
 	pBuf := audio.IntBuffer{

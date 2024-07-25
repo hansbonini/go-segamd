@@ -11,7 +11,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// compressionCmd represents the compression command
 var compressionCmd = &cobra.Command{
 	Use:   "compression",
 	Short: "Handle Sega Genesis / Mega Drive ROMs compression",

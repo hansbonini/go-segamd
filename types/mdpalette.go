@@ -9,6 +9,19 @@ type MDPalette struct {
 	Colors []MDColor
 }
 
+// NewMDPalette creates a new MDPalette from the provided byte slice.
+//
+// The data parameter is a byte slice containing the raw data for the palette.
+// The function reads 16 color values from the data using big-endian byte order,
+// creates a new MDColor for each color, and appends it to the palette's Colors slice.
+// The first color's alpha value is set to 0.
+// The function returns a pointer to the newly created MDPalette.
+//
+// Parameters:
+// - data: a byte slice containing the raw data for the palette.
+//
+// Returns:
+// - palette: a pointer to the newly created MDPalette.
 func NewMDPalette(data []byte) (palette *MDPalette) {
 	palette = &MDPalette{}
 	buf := bytes.NewBuffer(data)
@@ -27,6 +40,10 @@ func NewMDPalette(data []byte) (palette *MDPalette) {
 	return palette
 }
 
+// Size returns the number of colors in the MDPalette.
+//
+// It takes no parameters.
+// It returns an integer representing the number of colors in the palette.
 func (palette *MDPalette) Size() int {
 	return len(palette.Colors)
 }

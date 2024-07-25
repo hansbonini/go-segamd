@@ -15,7 +15,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// checksumCmd represents the checksum command
 var checksumCmd = &cobra.Command{
 	Use:   "checksum",
 	Short: "Generate a checksum of the ROM",

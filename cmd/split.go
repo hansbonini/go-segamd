@@ -61,7 +61,6 @@ var splitCmd = &cobra.Command{
 				log.Fatal(err)
 			}
 			defer out.Close()
-			// read rom at start_offset
 			out.Write(in.Data[start_offset:end_offset])
 			out.Close()
 		}

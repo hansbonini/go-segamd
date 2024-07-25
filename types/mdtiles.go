@@ -11,6 +11,15 @@ type MDTiles struct {
 	Bpp    int
 }
 
+// NewMDTiles creates a new MDTiles object with the given data, width, and bits per pixel.
+//
+// Parameters:
+// - data: a byte slice containing the tile data.
+// - width: the width of each tile in pixels.
+// - bpp: the number of bits per pixel.
+//
+// Returns:
+// - a pointer to the newly created MDTiles object.
 func NewMDTiles(data []byte, width int, bpp int) *MDTiles {
 	tiles := &MDTiles{
 		Width: width,
@@ -25,6 +34,12 @@ func NewMDTiles(data []byte, width int, bpp int) *MDTiles {
 	return tiles
 }
 
+// FromData converts the given byte slice data into the format required by the MDTiles struct.
+//
+// Parameters:
+// - data: a byte slice containing the data to be converted.
+//
+// Returns: None.
 func (tiles *MDTiles) FromData(data []byte) {
 	switch tiles.Bpp {
 	case 1:
@@ -58,6 +73,14 @@ func (tiles *MDTiles) FromData(data []byte) {
 	}
 }
 
+// ReadPixel returns the value of a pixel at the given coordinates (x, y) from the MDTiles object.
+//
+// Parameters:
+// - x: the x-coordinate of the pixel.
+// - y: the y-coordinate of the pixel.
+//
+// Returns:
+// - value: the value of the pixel as a byte.
 func (tiles *MDTiles) ReadPixel(x, y int) (value byte) {
 	tx := (x%8 + ((x / 8) * (tiles.Bpp * 8 * (64 / (tiles.Bpp * 8)))))
 	ty := ((y % 8) * 8) + ((y / 8) * (tiles.Width * tiles.Bpp * 8 * (64 / (tiles.Bpp * 8))))
@@ -67,6 +90,13 @@ func (tiles *MDTiles) ReadPixel(x, y int) (value byte) {
 	return
 }
 
+// ToPNG generates an image.RGBA object from the given MDTiles object and MDPalette.
+//
+// Parameters:
+// - mdpalette: The MDPalette object containing the colors to be used in the generated image.
+//
+// Returns:
+// - img: The generated image.RGBA object.
 func (tiles *MDTiles) ToPNG(mdpalette MDPalette) (img *image.RGBA) {
 	rect := image.Rect(0, 0, tiles.Width*8, tiles.Height*8)
 	img = image.NewRGBA(rect)
