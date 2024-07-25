@@ -21,9 +21,18 @@ var compressionCmd = &cobra.Command{
 }
 
 var segardCompressionCmd = &cobra.Command{
-	Use:        "segard",
-	Short:      "Handle Sega Genesis / Mega Drive ROMs \"SEGARD\" compression",
-	Long:       "Handle Sega Genesis / Mega Drive ROMs \"SEGARD\" compression",
+	Use:   "segard",
+	Short: "Handle Sega Genesis / Mega Drive ROMs \"SEGARD\" compression",
+	Long: `Handle Sega Genesis / Mega Drive ROMs \"SEGARD\" compression
+Games where this compression is found:
+	- [SMD] Alex Kidd in Enchanted Castle
+	- [SMD] Altered Beast
+	- [SMD] Columns
+	- [SMD] Golden Axe
+	- [SMD] Hokuto no Ken: Shin Seikimatsu Kyuuseishu Densetsu
+	- [SMD] Last Battle
+	- [SMD] Osomatsu-kun - Hachamecha Gekijou
+	- [SMD] World Championship Soccer`,
 	Args:       cobra.MinimumNArgs(3),
 	ValidArgs:  []string{"mode", "input", "output"},
 	ArgAliases: []string{"mode", "input", "output"},
