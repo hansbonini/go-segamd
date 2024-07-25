@@ -10,42 +10,31 @@ import (
 
 func TestNewMDColor(t *testing.T) {
 	tests := []struct {
-		name string
-		r    uint8
-		g    uint8
-		b    uint8
-		a    uint8
-		want *types.MDColor
+		name  string
+		value uint16
+		want  *types.MDColor
 	}{
 		{
-			name: "Test with max values",
-			r:    0x1F,
-			g:    0x1F,
-			b:    0x1F,
-			a:    0xFF,
-			want: &types.MDColor{R: 0x1F, G: 0x1F, B: 0x1F, A: 0xFF},
+			name:  "Test with max values",
+			value: 0xFFFF,
+			want:  &types.MDColor{R: 7, G: 7, B: 7, A: 255},
 		},
 		{
-			name: "Test with min values",
-			r:    0x00,
-			g:    0x00,
-			b:    0x00,
-			a:    0x00,
-			want: &types.MDColor{R: 0x00, G: 0x00, B: 0x00, A: 0x00},
+			name:  "Test with min values",
+			value: 0x2222,
+			want:  &types.MDColor{R: 1, G: 1, B: 1, A: 255},
 		},
 		{
-			name: "Test with zero values",
-			r:    0x00,
-			g:    0x00,
-			b:    0x00,
-			a:    0x00,
-			want: &types.MDColor{R: 0x00, G: 0x00, B: 0x00, A: 0x00},
+			name:  "Test with zero values",
+			value: 0x0000,
+			want:  &types.MDColor{R: 0, G: 0, B: 0, A: 255},
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := types.NewMDColor()
+			got.FromValue(tt.value)
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("NewMDColor() = %v, want %v", got, tt.want)
 			}
