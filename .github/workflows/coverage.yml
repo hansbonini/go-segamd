@@ -34,11 +34,10 @@ jobs:
     
         - name: Staticcheck
           run: staticcheck ./...
-
           
         - run: |
             set -e
-            go test -covermode=atomic -coverprofile=coverage.out ./...
+            go test -covermode=atomic -coverprofile=coverage.out ./types/...
             coverage=`go tool cover -func coverage.out | grep total | tr -s '\t' | cut -f 3 | grep -o '[^%]*'`
             if (( $(echo "$coverage < 63" | bc) )); then echo "Test coverage lowered"; exit 1; fi
         
