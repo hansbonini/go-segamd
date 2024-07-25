@@ -161,3 +161,49 @@ func TestMDColor_ToRGBA(t *testing.T) {
 		})
 	}
 }
+
+func TestMDColor_ToValue(t *testing.T) {
+	tests := []struct {
+		name    string
+		mdcolor types.MDColor
+		want    uint16
+	}{
+		{
+			name: "Test with max values",
+			mdcolor: types.MDColor{
+				R: 255,
+				G: 255,
+				B: 255,
+				A: 255,
+			},
+			want: 0xFFFE,
+		},
+		{
+			name: "Test with min values",
+			mdcolor: types.MDColor{
+				R: 0x00,
+				G: 0x00,
+				B: 0x00,
+				A: 0x00,
+			},
+			want: 0x0000,
+		},
+		{
+			name: "Test with middle values",
+			mdcolor: types.MDColor{
+				R: 15,
+				G: 15,
+				B: 15,
+				A: 255,
+			},
+			want: 0x1FFE,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.mdcolor.ToValue(); got != tt.want {
+				t.Errorf("MDColor.ToValue() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
