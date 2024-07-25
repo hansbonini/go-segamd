@@ -30,5 +30,5 @@ func (mdcolor *MDColor) ToRGBA() color.RGBA {
 }
 
 func (mdcolor *MDColor) ToValue() uint16 {
-	return uint16(mdcolor.R<<1) | uint16(mdcolor.G<<5) | uint16(mdcolor.B<<9)
+	return uint16(mdcolor.R)<<1 | uint16(mdcolor.G)<<5 | uint16(mdcolor.B)<<9
 }
