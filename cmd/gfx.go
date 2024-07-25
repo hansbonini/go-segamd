@@ -1,12 +1,13 @@
 package cmd
 
 import (
-	"go-segamd/types"
-	"go-segamd/types/generic"
 	"image/png"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/hansbonini/go-segamd/types"
+	"github.com/hansbonini/go-segamd/types/generic"
 
 	"github.com/spf13/cobra"
 )

@@ -3,10 +3,11 @@ package cmd
 import (
 	"bufio"
 	"fmt"
-	"go-segamd/types/generic"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/hansbonini/go-segamd/types/generic"
 
 	"github.com/spf13/cobra"
 )

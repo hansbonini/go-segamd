@@ -1,4 +1,4 @@
-module go-segamd
+module github.com/hansbonini/go-segamd
 
 go 1.22.4
 

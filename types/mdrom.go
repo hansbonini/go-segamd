@@ -3,8 +3,9 @@ package types
 import (
 	"bytes"
 	"encoding/binary"
-	"go-segamd/types/generic"
 	"io"
+
+	"github.com/hansbonini/go-segamd/types/generic"
 
 	"golang.org/x/text/encoding/japanese"
 	"golang.org/x/text/transform"

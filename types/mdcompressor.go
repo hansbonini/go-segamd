@@ -3,9 +3,10 @@ package types
 import (
 	"bytes"
 	"encoding/binary"
-	"go-segamd/types/generic"
 	"log"
 	"slices"
+
+	"github.com/hansbonini/go-segamd/types/generic"
 )
 
 type MDCompressor interface {

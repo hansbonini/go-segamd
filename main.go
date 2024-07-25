@@ -1,6 +1,6 @@
 package main
 
-import "go-segamd/cmd"
+import "github.com/hansbonini/go-segamd/cmd"
 
 func main() {
 	cmd.Execute()

@@ -4,12 +4,13 @@ import (
 	"crypto/md5"
 	"crypto/sha1"
 	"fmt"
-	"go-segamd/types/generic"
 	"hash/crc32"
 	"log"
 	"os"
 	"slices"
 	"strings"
+
+	"github.com/hansbonini/go-segamd/types/generic"
 
 	"github.com/spf13/cobra"
 )

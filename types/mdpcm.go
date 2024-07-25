@@ -3,8 +3,9 @@ package types
 import (
 	"bytes"
 	"encoding/binary"
-	"go-segamd/types/generic"
 	"io"
+
+	"github.com/hansbonini/go-segamd/types/generic"
 
 	"github.com/go-audio/audio"
 	"github.com/go-audio/wav"
