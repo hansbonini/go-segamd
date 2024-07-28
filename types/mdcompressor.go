@@ -491,15 +491,60 @@ func (namco *MDCompressor_NAMCO) Marshal() []byte {
 }
 
 func (namco *MDCompressor_NAMCO) Unmarshal() []byte {
-	return []byte{}
+	var buffer bytes.Buffer
+	var decoded int
+	var b uint8
+	var err error
+	window := generic.NewRingBuffer(0x1000, uint8(0x00))
+	window.Offset = 0xFEE
+	uncompressedSize, err := namco.ROM.Read16()
+	if err != nil {
+		log.Fatal(err)
+	}
+	b, err = namco.ROM.Read8()
+	if err != nil {
+		log.Fatal(err)
+	}
+	for decoded < int(uncompressedSize) {
+		pattern := generic.BitArray8{}
+		pattern.SetValue(b)
+		for i := 0; i < 8; i++ {
+			if pattern.GetBit(i) == 1 {
+				if b, err = namco.ROM.Read8(); err != nil {
+					break
+				}
+				buffer.WriteByte(b)
+				window.Push(b)
+				decoded += 1
+			} else {
+				var r uint16
+				if r, err = namco.ROM.Read16(); err != nil {
+					break
+				}
+				length := (r & 0x0F) + 3
+				offset := ((r & 0xF0) << 4) | (r >> 8)
+				for j := 0; j < int(length); j++ {
+					buffer.WriteByte(window.Get(int(offset) + j).(byte))
+					window.Push(window.Get(int(offset) + j).(byte))
+				}
+				decoded += int(length)
+			}
+		}
+		if b, err = namco.ROM.Read8(); err != nil {
+			break
+		}
+	}
+	return buffer.Bytes()
 }
 
 func (technosoft *MDCompressor_TECHNOSOFT) Marshal() []byte {
-	return []byte{}
+	c := NewMDCompressor("NAMCO", technosoft.ROM)
+	return c.Marshal()
 }
 
 func (technosoft *MDCompressor_TECHNOSOFT) Unmarshal() []byte {
-	return []byte{}
+	c := NewMDCompressor("NAMCO", technosoft.ROM)
+	return c.Unmarshal()
 }
 
 func (konami1 *MDCompressor_KONAMI1) Marshal() []byte {

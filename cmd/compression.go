@@ -83,7 +83,65 @@ Games where this compression is found:
 	},
 }
 
+var namcoCompressionCmd = &cobra.Command{
+	Use:   "namco",
+	Short: "Handle Sega Genesis / Mega Drive ROMs \"NAMCO\" compression",
+	Long: `Handle Sega Genesis / Mega Drive ROMs \"NAMCO\" compression
+Games where this compression is found:
+	- [SMD] Ball Jacks
+	- [SMD] Buning Force
+	- [SMD] Chibi Maruko-Chan: Waku Waku Shopping
+	- [SMD] Fushigi Umi No Nadia
+	- [SMD] Klax
+	- [SMD] Kyuukai Douchuuki
+	- [SMD] Marvel Land 
+	- [SMD] Megapanel
+	- [SMD] Pac-Attack
+	- [SMD] PacMan2: The New Adventures
+	- [SMD] Phelios
+	- [SMD] Powerball
+	- [SMD] Rolling Thunder 2`,
+	Args:       cobra.MinimumNArgs(3),
+	ValidArgs:  []string{"mode", "input", "output"},
+	ArgAliases: []string{"mode", "input", "output"},
+	PreRun: func(cmd *cobra.Command, args []string) {
+		switch args[0] {
+		case "decompress":
+		case "compress":
+		default:
+			log.Fatal("Invalid mode. Valid modes: decompress, compress")
+		}
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		var in *generic.ROM
+		var out *os.File
+		var err error
+		var data []byte
+		if in, err = generic.NewROM(args[1]); err != nil {
+			log.Fatal(err)
+		}
+		if out, err = os.Create(args[2]); err != nil {
+			log.Fatal(err)
+		}
+		compressor := types.NewMDCompressor("NAMCO", *in)
+		switch args[0] {
+		case "decompress":
+			data = compressor.Unmarshal()
+		case "compress":
+			data = compressor.Marshal()
+		}
+		if len(data) > 0 {
+			if _, err = out.Write(data); err != nil {
+				log.Fatal(err)
+			}
+		} else {
+			log.Fatalf("Unable to %s data", args[0])
+		}
+	},
+}
+
 func init() {
+	compressionCmd.AddCommand(namcoCompressionCmd)
 	compressionCmd.AddCommand(segardCompressionCmd)
 	rootCmd.AddCommand(compressionCmd)
 }
