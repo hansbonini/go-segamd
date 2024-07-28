@@ -490,6 +490,33 @@ func (namco *MDCompressor_NAMCO) Marshal() []byte {
 	return []byte{}
 }
 
+// Unmarshal decodes the compressed data stored in the ROM using the Lempel-Ziv algorithm
+// and returns the uncompressed data as a byte slice.
+//
+// Window has a fixed size of 4096 (0x1000) bytes.
+// Window starts to write at position 4078 (0xFEE).
+// Byte pair is composed by length and offset in the window
+// Length is stored in the least significant 4 bits
+// Offset is stored in the most significant 12 bits
+//
+// # OOOOOOOO OOOOLLLL
+//
+// Function read the first 2 bytes from the ROM which determine the uncompressed size.
+// Next byte, will be read bit a bit to determine which bytes from the sequence should
+// be read as a single byte or a LZ pair (composed by length and offset).
+// If bit is 1, the next byte will be read and added to the window
+// If bit is 0, the LZ pair will be parsed in length and offset. Then the sequence will
+// be read from the window according to the offset, added to the buffer and added to the
+// window at current position.
+// After the entire sequence has been read, the buffer will be returned.
+//
+// Parameters:
+//
+//	None
+//
+// Returns:
+//
+//	[]byte: The uncompressed data as a byte slice.
 func (namco *MDCompressor_NAMCO) Unmarshal() []byte {
 	var buffer bytes.Buffer
 	var decoded int
