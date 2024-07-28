@@ -512,11 +512,11 @@ func (namco *MDCompressor_NAMCO) Marshal() []byte {
 //
 // Parameters:
 //
-//	None
+// - None
 //
 // Returns:
 //
-//	[]byte: The uncompressed data as a byte slice.
+// - []byte: The uncompressed data as a byte slice.
 func (namco *MDCompressor_NAMCO) Unmarshal() []byte {
 	var buffer bytes.Buffer
 	var decoded int
@@ -569,6 +569,17 @@ func (technosoft *MDCompressor_TECHNOSOFT) Marshal() []byte {
 	return c.Marshal()
 }
 
+// Exactly the same algorithm as NAMCO
+// Unmarshal decompresses the ROM data using the NAMCO algorithm
+// and returns the decompressed data.
+//
+// Parameters:
+//
+// - None
+//
+// Returns:
+//
+// - []byte: The uncompressed data as a byte slice.
 func (technosoft *MDCompressor_TECHNOSOFT) Unmarshal() []byte {
 	c := NewMDCompressor("NAMCO", technosoft.ROM)
 	return c.Unmarshal()
