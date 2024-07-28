@@ -3,6 +3,7 @@ package types
 import (
 	"bytes"
 	"encoding/binary"
+	"fmt"
 	"log"
 	"slices"
 
@@ -132,7 +133,101 @@ func NewMDCompressor(algorithm string, rom generic.ROM) MDCompressor {
 		return &MDCompressor_NEMESIS{
 			ROM: rom,
 		}
+	case "KOZINSKI":
+		return &MDCompressor_KOZINSKI{
+			ROM: rom,
+		}
+	case "ENIGMA":
+		return &MDCompressor_ENIGMA{
+			ROM: rom,
+		}
+	case "SAXMAN":
+		return &MDCompressor_SAXMAN{
+			ROM: rom,
+		}
+	case "STI":
+		return &MDCompressor_STI{
+			ROM: rom,
+		}
+	case "STI2":
+		return &MDCompressor_STI2{
+			ROM: rom,
+		}
+	case "WESTONE":
+		return &MDCompressor_WESTONE{
+			ROM: rom,
+		}
+	case "SILICONSYNAPSE":
+		return &MDCompressor_SILICONSYNAPSE{
+			ROM: rom,
+		}
+	case "NAMCO":
+		return &MDCompressor_NAMCO{
+			ROM: rom,
+		}
+	case "TECHNOSOFT":
+		return &MDCompressor_TECHNOSOFT{
+			ROM: rom,
+		}
+	case "KONAMI1":
+		return &MDCompressor_KONAMI1{
+			ROM: rom,
+		}
+	case "KONAMI2":
+		return &MDCompressor_KONAMI2{
+			ROM: rom,
+		}
+	case "KONAMI3":
+		return &MDCompressor_KONAMI3{
+			ROM: rom,
+		}
+	case "TOSE":
+		return &MDCompressor_TOSE{
+			ROM: rom,
+		}
+	case "EASTRIKE":
+		return &MDCompressor_EASTRIKE{
+			ROM: rom,
+		}
+	case "NEXTECH":
+		return &MDCompressor_NEXTECH{
+			ROM: rom,
+		}
+	case "WOLFTEAM":
+		return &MDCompressor_WOLFTEAM{
+			ROM: rom,
+		}
+	case "ANCIENT":
+		return &MDCompressor_ANCIENT{
+			ROM: rom,
+		}
+	case "SOFTWARECREATIONS":
+		return &MDCompressor_SOFTWARECREATIONS{
+			ROM: rom,
+		}
+	case "KOEI":
+		return &MDCompressor_KOEI{
+			ROM: rom,
+		}
+	case "FACTOR5":
+		return &MDCompressor_FACTOR5{
+			ROM: rom,
+		}
+	case "TECMO":
+		return &MDCompressor_TECMO{
+			ROM: rom,
+		}
+	case "SNK":
+		return &MDCompressor_SNK{
+			ROM: rom,
+		}
+	case "ITL":
+		return &MDCompressor_ITL{
+			ROM: rom,
+		}
 	}
+
+	fmt.Printf("Unknown algorithm: %s\n", algorithm)
 	return nil
 }
 
@@ -404,6 +499,30 @@ func (technosoft *MDCompressor_TECHNOSOFT) Marshal() []byte {
 }
 
 func (technosoft *MDCompressor_TECHNOSOFT) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (konami1 *MDCompressor_KONAMI1) Marshal() []byte {
+	return []byte{}
+}
+
+func (konami1 *MDCompressor_KONAMI1) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (konami2 *MDCompressor_KONAMI2) Marshal() []byte {
+	return []byte{}
+}
+
+func (konami2 *MDCompressor_KONAMI2) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (konami3 *MDCompressor_KONAMI3) Marshal() []byte {
+	return []byte{}
+}
+
+func (konami3 *MDCompressor_KONAMI3) Unmarshal() []byte {
 	return []byte{}
 }
 
