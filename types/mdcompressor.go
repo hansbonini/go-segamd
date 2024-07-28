@@ -18,6 +18,102 @@ type MDCompressor_SEGARD struct {
 	ROM generic.ROM
 }
 
+type MDCompressor_NEMESIS struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_KOZINSKI struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_ENIGMA struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_SAXMAN struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_STI struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_STI2 struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_WESTONE struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_SILICONSYNAPSE struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_NAMCO struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_TECHNOSOFT struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_KONAMI1 struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_KONAMI2 struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_KONAMI3 struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_TOSE struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_EASTRIKE struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_NEXTECH struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_WOLFTEAM struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_ANCIENT struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_SOFTWARECREATIONS struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_KOEI struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_FACTOR5 struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_TECMO struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_SNK struct {
+	ROM generic.ROM
+}
+
+type MDCompressor_ITL struct {
+	ROM generic.ROM
+}
+
 // NewMDCompressor creates a new instance of MDCompressor based on the given algorithm and ROM.
 //
 // Parameters:
@@ -30,6 +126,10 @@ func NewMDCompressor(algorithm string, rom generic.ROM) MDCompressor {
 	switch algorithm {
 	case "SEGARD":
 		return &MDCompressor_SEGARD{
+			ROM: rom,
+		}
+	case "NEMESIS":
+		return &MDCompressor_NEMESIS{
 			ROM: rom,
 		}
 	}
@@ -225,4 +325,172 @@ func (segard *MDCompressor_SEGARD) Unmarshal() []byte {
 		}
 	}
 	return buffer.Bytes()
+}
+
+func (nemesis *MDCompressor_NEMESIS) Marshal() []byte {
+	return []byte{}
+}
+
+func (nemesis *MDCompressor_NEMESIS) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (kozinski *MDCompressor_KOZINSKI) Marshal() []byte {
+	return []byte{}
+}
+
+func (kozinski *MDCompressor_KOZINSKI) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (enigma *MDCompressor_ENIGMA) Marshal() []byte {
+	return []byte{}
+}
+
+func (enigma *MDCompressor_ENIGMA) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (saxman *MDCompressor_SAXMAN) Marshal() []byte {
+	return []byte{}
+}
+
+func (saxman *MDCompressor_SAXMAN) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (sti *MDCompressor_STI) Marshal() []byte {
+	return []byte{}
+}
+
+func (sti *MDCompressor_STI) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (sti2 *MDCompressor_STI2) Marshal() []byte {
+	return []byte{}
+}
+
+func (sti2 *MDCompressor_STI2) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (westone *MDCompressor_WESTONE) Marshal() []byte {
+	return []byte{}
+}
+
+func (westone *MDCompressor_WESTONE) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (siliconsynapse *MDCompressor_SILICONSYNAPSE) Marshal() []byte {
+	return []byte{}
+}
+
+func (siliconsynapse *MDCompressor_SILICONSYNAPSE) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (namco *MDCompressor_NAMCO) Marshal() []byte {
+	return []byte{}
+}
+
+func (namco *MDCompressor_NAMCO) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (technosoft *MDCompressor_TECHNOSOFT) Marshal() []byte {
+	return []byte{}
+}
+
+func (technosoft *MDCompressor_TECHNOSOFT) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (tose *MDCompressor_TOSE) Marshal() []byte {
+	return []byte{}
+}
+
+func (tose *MDCompressor_TOSE) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (eastrike *MDCompressor_EASTRIKE) Marshal() []byte {
+	return []byte{}
+}
+
+func (eastrike *MDCompressor_EASTRIKE) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (nextech *MDCompressor_NEXTECH) Marshal() []byte {
+	return []byte{}
+}
+
+func (nextech *MDCompressor_NEXTECH) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (wolfteam *MDCompressor_WOLFTEAM) Marshal() []byte {
+	return []byte{}
+}
+
+func (wolfteam *MDCompressor_WOLFTEAM) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (ancient *MDCompressor_ANCIENT) Marshal() []byte {
+	return []byte{}
+}
+
+func (ancient *MDCompressor_ANCIENT) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (softwarecreations *MDCompressor_SOFTWARECREATIONS) Marshal() []byte {
+	return []byte{}
+}
+
+func (softwarecreations *MDCompressor_SOFTWARECREATIONS) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (koei *MDCompressor_KOEI) Marshal() []byte {
+	return []byte{}
+}
+
+func (koei *MDCompressor_KOEI) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (factor5 *MDCompressor_FACTOR5) Marshal() []byte {
+	return []byte{}
+}
+
+func (factor5 *MDCompressor_FACTOR5) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (tecmo *MDCompressor_TECMO) Marshal() []byte {
+	return []byte{}
+}
+
+func (tecmo *MDCompressor_TECMO) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (snk *MDCompressor_SNK) Marshal() []byte {
+	return []byte{}
+}
+
+func (snk *MDCompressor_SNK) Unmarshal() []byte {
+	return []byte{}
+}
+
+func (itl *MDCompressor_ITL) Marshal() []byte {
+	return []byte{}
+}
+
+func (itl *MDCompressor_ITL) Unmarshal() []byte {
+	return []byte{}
 }
