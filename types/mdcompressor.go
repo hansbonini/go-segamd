@@ -512,8 +512,6 @@ func (namco *MDCompressor_NAMCO) Marshal() []byte {
 		}
 		offset, length := namco.FindMatch(window, minLength, maxLength)
 		if length >= minLength {
-			fmt.Printf("%04X, %03X, %d", int(window.Offset), uint(offset)&0xFFF, length)
-			fmt.Printf("\t < selected")
 			bitFlag.ClearBit(bitCount)
 			lzpair := uint16((offset << 8) | ((offset >> 4) & 0xF0))
 			lzpair &= 0xFFF0
@@ -525,14 +523,12 @@ func (namco *MDCompressor_NAMCO) Marshal() []byte {
 				namco.ROM.Offset++
 				encoded++
 			}
-			fmt.Printf("\t->\t %04X", window.Offset)
 		} else {
 			bitFlag.SetBit(bitCount)
 			temp.WriteByte(namco.ROM.Data[namco.ROM.Offset])
 			window.Push(namco.ROM.Data[namco.ROM.Offset])
 			namco.ROM.Offset++
 		}
-		fmt.Print("\n")
 		bitCount++
 	}
 	if bitCount > 0 {
