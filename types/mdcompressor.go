@@ -546,7 +546,7 @@ func (namco *MDCompressor_NAMCO) FindMatch(window *generic.RingBuffer, minLength
 	}
 
 	pos := int((window.Offset) & uint(window.Size-1))
-	for i := 0; i <= (window.Size + maxLength - 1); i++ {
+	for i := 0; i <= (window.Size); i++ {
 		size := 0
 		for ; size+namco.ROM.Offset < namco.ROM.Size; size++ {
 			wo := pos - i + size
