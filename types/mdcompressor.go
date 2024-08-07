@@ -487,7 +487,87 @@ func (siliconsynapse *MDCompressor_SILICONSYNAPSE) Unmarshal() []byte {
 }
 
 func (namco *MDCompressor_NAMCO) Marshal() []byte {
-	return []byte{}
+	var buffer, temp bytes.Buffer
+	var encoded int
+	minLength := 3
+	maxLength := (1 << 4) + minLength
+	bitCount := 0
+	bitFlag := generic.NewBitArray8()
+	windowSize := 0x1000
+	window := generic.NewRingBuffer(windowSize, byte(0x00))
+	window.Offset = 0xFEE
+
+	buffer.WriteByte(byte(namco.ROM.Size >> 8))
+	buffer.WriteByte(byte(namco.ROM.Size & 0xFF))
+
+	for namco.ROM.Offset < namco.ROM.Size {
+		if bitCount > 7 {
+			buffer.WriteByte(bitFlag.GetValue())
+			for _, v := range temp.Bytes() {
+				buffer.WriteByte(v)
+			}
+			temp.Reset()
+			bitCount = 0
+			bitFlag = generic.NewBitArray8()
+		}
+		offset, length := namco.FindMatch(window, minLength, maxLength)
+		if length >= minLength {
+			fmt.Printf("%04X, %03X, %d", int(window.Offset), uint(offset)&0xFFF, length)
+			fmt.Printf("\t < selected")
+			bitFlag.ClearBit(bitCount)
+			lzpair := uint16((offset << 8) | ((offset >> 4) & 0xF0))
+			lzpair &= 0xFFF0
+			lzpair |= uint16(length - minLength)
+			temp.WriteByte(uint8(lzpair >> 8))
+			temp.WriteByte(uint8(lzpair & 0xFF))
+			for i := 0; i < length; i++ {
+				window.Push(namco.ROM.Data[namco.ROM.Offset])
+				namco.ROM.Offset++
+				encoded++
+			}
+			fmt.Printf("\t->\t %04X", window.Offset)
+		} else {
+			bitFlag.SetBit(bitCount)
+			temp.WriteByte(namco.ROM.Data[namco.ROM.Offset])
+			window.Push(namco.ROM.Data[namco.ROM.Offset])
+			namco.ROM.Offset++
+		}
+		fmt.Print("\n")
+		bitCount++
+	}
+	if bitCount > 0 {
+		buffer.WriteByte(bitFlag.GetValue())
+		for _, v := range temp.Bytes() {
+			buffer.WriteByte(v)
+		}
+	}
+	return buffer.Bytes()
+}
+
+func (namco *MDCompressor_NAMCO) FindMatch(window *generic.RingBuffer, minLength int, maxLength int) (offset int, length int) {
+	if namco.ROM.Offset+minLength >= namco.ROM.Size {
+		return
+	}
+
+	pos := int((window.Offset) & uint(window.Size-1))
+	for i := 0; i <= (window.Size + maxLength - 1); i++ {
+		size := 0
+		for ; size+namco.ROM.Offset < namco.ROM.Size; size++ {
+			wo := pos - i + size
+			if wo >= pos || (window.Get(wo) != namco.ROM.Data[namco.ROM.Offset+size]) {
+				break
+			}
+			if size >= maxLength-1 {
+				break
+			}
+		}
+		if size >= length {
+			length = size
+			offset = pos - i
+		}
+	}
+
+	return
 }
 
 // Unmarshal decodes the compressed data stored in the ROM using the Lempel-Ziv algorithm

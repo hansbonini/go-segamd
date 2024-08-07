@@ -2,7 +2,7 @@ package generic
 
 type RingBuffer struct {
 	Data   []any
-	Offset int
+	Offset uint
 	Size   int
 	Fill   any
 }
@@ -20,21 +20,21 @@ func NewRingBuffer(size int, fill any) *RingBuffer {
 
 func (rb *RingBuffer) Push(data any) {
 	rb.Data[rb.Offset] = data
-	rb.Offset = (rb.Offset + 1) % rb.Size
+	rb.Offset = (rb.Offset + 1) % uint(rb.Size)
 }
 
 func (rb *RingBuffer) Pop() any {
 	data := rb.Data[rb.Offset]
-	rb.Offset = (rb.Offset - 1) % rb.Size
+	rb.Offset = (rb.Offset - 1) % uint(rb.Size)
 	return data
 }
 
 func (rb *RingBuffer) Set(data any, offset int) {
-	rb.Data[offset%rb.Size] = data
+	rb.Data[uint(offset)%uint(rb.Size)] = data
 }
 
 func (rb *RingBuffer) Get(offset int) any {
-	return rb.Data[offset%rb.Size]
+	return rb.Data[uint(offset)%uint(rb.Size)]
 }
 
 func (rb *RingBuffer) FillData(data any, size int) {
